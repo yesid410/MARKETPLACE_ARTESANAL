@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="h4 mb-3">Panel del API Gateway</h2>
+
+<div class="card mb-4">
+  <div class="card-header">Estado</div>
+  <div class="card-body">
+    <pre class="mb-0">{{ health | tojson(indent=2) }}</pre>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">Probar Rutas</div>
+  <div class="card-body">
+    <form id="form-proxy" class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label">Método</label>
+        <select class="form-select" name="method">
+          <option>GET</option>
+          <option>POST</option>
+          <option>PUT</option>
+          <option>DELETE</option>
+        </select>
+      </div>
+      <div class="col-md-8">
+        <label class="form-label">Path del Gateway</label>
+        <input class="form-control" name="path" placeholder="/productos" value="/health">
+      </div>
+      <div class="col-12">
+        <label class="form-label">Body (JSON opcional)</label>
+        <textarea class="form-control" name="body" rows="4" placeholder='{"ejemplo":1}'></textarea>
+      </div>
+      <div class="col-12">
+        <button class="btn btn-primary">Ejecutar</button>
+      </div>
+    </form>
+    <hr>
+    <h6>Respuesta</h6>
+    <pre id="proxy-response" class="bg-body-tertiary p-3 rounded small"></pre>
+  </div>
+</div>
+{% endblock %}
