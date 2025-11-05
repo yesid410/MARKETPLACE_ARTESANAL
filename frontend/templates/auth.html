@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="h4 mb-3">Autenticación</h2>
+
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">Registro</div>
+      <div class="card-body">
+        <form id="form-register" class="row g-3">
+          <div class="col-12">
+            <label class="form-label">Email</label>
+            <input class="form-control" name="email" type="email" required>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Password</label>
+            <input class="form-control" name="password" type="password" required>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-success">Registrarse</button>
+          </div>
+        </form>
+        <pre id="register-resp" class="small bg-body-tertiary p-3 rounded mt-3"></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">Login</div>
+      <div class="card-body">
+        <form id="form-login" class="row g-3">
+          <div class="col-12">
+            <label class="form-label">Email</label>
+            <input class="form-control" name="email" type="email" required>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Password</label>
+            <input class="form-control" name="password" type="password" required>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-primary">Iniciar sesión</button>
+          </div>
+        </form>
+        <pre id="login-resp" class="small bg-body-tertiary p-3 rounded mt-3"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById('form-register').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const payload = {
+    email: fd.get('email'),
+    password: fd.get('password')
+  };
+  const res = await fetch(`${GATEWAY_URL}/auth/register`, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  });
+  document.getElementById('register-resp').textContent = await res.text();
+});
+
+document.getElementById('form-login').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const payload = {
+    email: fd.get('email'),
+    password: fd.get('password')
+  };
+  const res = await fetch(`${GATEWAY_URL}/auth/login`, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  });
+  document.getElementById('login-resp').textContent = await res.text();
+});
+</script>
+{% endblock %}
